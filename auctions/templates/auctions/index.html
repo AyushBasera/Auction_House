@@ -1,0 +1,51 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+    
+    {% if listings %}
+        <div class="row">
+            {% for listing in listings %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100" style="min-height: 450px;">
+                        {% if listing.image_url %}
+                            <img src="{{ listing.image_url }}" class="card-img-top" style="height: 200px; object-fit: contain;" alt="{{ listing.title }}">
+                        {% endif %}
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ listing.title }}</h5>
+                            <p class="card-text">{{ listing.description }}</p>
+                            <p><strong>Price(rs.): </strong>{{ listing.starting_bid }}</p>
+                            <div class="mt-auto">
+                                <a href="{% url 'listing' listing.id %}" class="btn btn-primary">View Listing</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    {% else %}
+        <p>No active listings at the moment.</p>
+    {% endif %}
+    
+    {% if won_listings %}
+        <h2>Bids Won by You</h2>
+        <div class="row">
+            {% for listing in won_listings %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        {% if listing.image_url %}
+                            <img src="{{ listing.image_url }}" class="card-img-top" style="height: 200px; object-fit: contain;" alt="{{ listing.title }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ listing.title }}</h5>
+                            <p class="card-text">{{ listing.description }}</p>
+                            <p><strong>Price(rs.): </strong>{{  listing.starting_bid }}</p>
+                            <a href="{% url 'listing' listing.id %}" class="btn btn-primary">View Listing</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
